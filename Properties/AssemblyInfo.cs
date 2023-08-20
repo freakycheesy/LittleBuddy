@@ -1,15 +1,15 @@
 ﻿using System.Reflection;
 using MelonLoader;
 
-[assembly: AssemblyTitle(LittleBuddy.BuildInfo.Description)]
-[assembly: AssemblyDescription(LittleBuddy.BuildInfo.Description)]
-[assembly: AssemblyCompany(LittleBuddy.BuildInfo.Company)]
-[assembly: AssemblyProduct(LittleBuddy.BuildInfo.Name)]
-[assembly: AssemblyCopyright("Developed by CarrionAndon" + LittleBuddy.BuildInfo.Author)]
-[assembly: AssemblyTrademark(LittleBuddy.BuildInfo.Company)]
-[assembly: AssemblyVersion(LittleBuddy.BuildInfo.Version)]
-[assembly: AssemblyFileVersion(LittleBuddy.BuildInfo.Version)]
-[assembly: MelonInfo(typeof(LittleBuddy.BuildInfo), LittleBuddy.BuildInfo.Name, LittleBuddy.BuildInfo.Version, LittleBuddy.BuildInfo.Author, LittleBuddy.BuildInfo.DownloadLink)]
+[assembly: AssemblyTitle(LittleBuddy.Main.Description)]
+[assembly: AssemblyDescription(LittleBuddy.Main.Description)]
+[assembly: AssemblyCompany(LittleBuddy.Main.Company)]
+[assembly: AssemblyProduct(LittleBuddy.Main.Name)]
+[assembly: AssemblyCopyright("Developed by CarrionAndOn" + LittleBuddy.Main.Author)]
+[assembly: AssemblyTrademark(LittleBuddy.Main.Company)]
+[assembly: AssemblyVersion(LittleBuddy.Main.Version)]
+[assembly: AssemblyFileVersion(LittleBuddy.Main.Version)]
+[assembly: MelonInfo(typeof(LittleBuddy.Main), LittleBuddy.Main.Name, LittleBuddy.Main.Version, LittleBuddy.Main.Author, LittleBuddy.Main.DownloadLink)]
 [assembly: MelonColor(System.ConsoleColor.White)]
 
 // Create and Setup a MelonGame Attribute to mark a Melon as Universal or Compatible with specific Games.

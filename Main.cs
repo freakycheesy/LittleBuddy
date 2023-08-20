@@ -5,17 +5,7 @@ using BoneLib.BoneMenu;
 
 namespace LittleBuddy
 {
-    public static class BuildInfo
-    {
-        public const string Name = "LittleBuddy"; // Name of the Mod.  (MUST BE SET)
-        public const string Description = "A little friend :)"; // Description of the Mod. (Set as null if none)
-        public const string Author = "CarrionAndOn"; // Author of the Mod.  (Set as null if none)
-        public const string Company = "null"; // Company that made the Mod.  (Set as null if none)
-        public const string Version = "0.0.0"; // Version of the Mod.  (MUST BE SET)
-        public const string DownloadLink = "null"; // Download Link for the Mod.  (Set as null if none)
-
-    }
-    public class LittleBuddy : MelonMod
+    internal partial class Main : MelonMod
     {
         public static CloneRigManager rm;
         public override void OnInitializeMelon()
@@ -26,15 +16,15 @@ namespace LittleBuddy
         public static void SetupBonemenu()
         {
             MenuCategory menuCategory = MenuManager.CreateCategory("Little Buddy", Color.yellow);
-            // Create toggle all bonemenu button
+            // Clone the RM
             menuCategory.CreateFunctionElement(
-                "Clone Rig Manager",
+                "Spawn Buddy",
                 Color.white,
                     rm.Clone
             );
-            // Create toggle all bonemenu button
+            // Delete the RM
             menuCategory.CreateFunctionElement(
-                "Delete Cloned Rig Manager",
+                "Delete Buddy",
                 Color.red,
                     rm.Delete
             );
