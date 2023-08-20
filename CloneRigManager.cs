@@ -83,12 +83,17 @@ public class CloneRigManager
                                 {
                                     cameraComponent.enabled = false;
                                 }
+                                AudioListener audioListener = headobj.GetComponent<AudioListener>();
+                                if (audioListener != null)
+                                {
+                                    audioListener.enabled = false;
+                                }
                             }
                         }
                     }
                 }
             }
         };
-        AssetSpawner.Spawn(spawnable, head.position + head.forward, default, new BoxedNullable<Vector3>(Vector3.one), false, new BoxedNullable<int>(null), null, null);
+        AssetSpawner.Spawn(spawnable, head.transform.position, Quaternion.identity, new BoxedNullable<Vector3>(null), false, new BoxedNullable<int>(null), spawnAction);
     }
 }
