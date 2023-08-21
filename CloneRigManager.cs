@@ -17,11 +17,16 @@ using UnityEngine.Rendering;
 
 public class CloneRigManager
 {
-    public GameObject go;
+    private GameObject defaultPlayerRigStored;
+    public float rotationAmount;
 
+    public void Rotate()
+    {
+        defaultPlayerRigStored.transform.Rotate(Vector3.up, rotationAmount);
+    }
     public void Delete()
     {
-        UnityEngine.Object.Destroy(go);
+        UnityEngine.Object.Destroy(defaultPlayerRigStored);
     }
     public void Clone()
     {
@@ -36,9 +41,10 @@ public class CloneRigManager
         };
 
         AssetSpawner.Register(spawnable);
-        Action<GameObject> spawnAction = go =>
+        Action<GameObject> spawnAction = defaultPlayerRig =>
         {
-            Transform rigManager = go.transform.Find("[RigManager (Blank)]");
+            defaultPlayerRigStored = defaultPlayerRig;
+            Transform rigManager = defaultPlayerRig.transform.Find("[RigManager (Blank)]");
             if (rigManager != null) 
             {
                 UnityEngine.Object.DestroyImmediate(rigManager.Find("EventSystem"));
