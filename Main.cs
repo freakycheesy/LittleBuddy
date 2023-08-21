@@ -31,6 +31,15 @@ namespace LittleBuddy
                 "Rotation Degree", Color.white, 90, 5, 0, 180,
                     (float value) => cloneRigManager.rotationAmount = value
             );
+            // Scale the RM
+            menuCategory.CreateFunctionElement(
+                "Scale Buddy", Color.white,
+                    cloneRigManager.Scale
+            );
+            menuCategory.CreateFloatElement(
+                "Scale Amount", Color.white, 1, (float)0.1, (float)0.5, 3,
+                    (float value) => cloneRigManager.scaleAmount = value
+            );
             // Delete the RM
             menuCategory.CreateFunctionElement(
                 "Delete Buddy :(", Color.red,

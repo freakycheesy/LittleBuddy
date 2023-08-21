@@ -15,132 +15,143 @@ using SLZ.UI;
 using UnityEngine.Rendering;
 using MelonLoader;
 
-[RegisterTypeInIl2Cpp]
-class RigManagerMarker : MonoBehaviour
+
+namespace LittleBuddy
 {
-#if !UNITY_EDITOR
-    public RigManagerMarker(IntPtr ptr) : base(ptr) { }
-#endif
-}
-public class CloneRigManager
-{
-    public float rotationAmount;
-
-    public void Rotate()
+    public class CloneRigManager
     {
-        RigManagerMarker[] rotObj = UnityEngine.Object.FindObjectsOfType<RigManagerMarker>();
-        foreach (RigManagerMarker rotateobj in rotObj)
+        public float rotationAmount;
+        public float scaleAmount;
+        public void Rotate()
         {
-            rotateobj.transform.Rotate(Vector3.up, rotationAmount);
-        }
-    }
-    public void Delete()
-    {
-        RigManagerMarker[] rmObj = UnityEngine.Object.FindObjectsOfType<RigManagerMarker>();
-        foreach (RigManagerMarker marker in rmObj)
-        {
-            UnityEngine.Object.Destroy(marker.gameObject);
-        }
-    }
-    public void Clone()
-    {
-        Vector3 position = Player.physicsRig.m_chest.gameObject.transform.position;
-        position.z += 5f;
-
-        string barcode = "SLZ.BONELAB.Core.DefaultPlayerRig";
-        SpawnableCrateReference reference = new SpawnableCrateReference(barcode);
-
-        Spawnable spawnable = new Spawnable()
-        {
-            crateRef = reference
-        };
-
-        AssetSpawner.Register(spawnable);
-        Action<GameObject> spawnAction = defaultPlayerRig =>
-        {
-            defaultPlayerRig.gameObject.AddComponent<RigManagerMarker>();
-            Transform playerRigTransform = defaultPlayerRig.transform;
-            Transform eventSystem = defaultPlayerRig.transform.Find("EventSystem");
-            GameObject eventSystemGO = eventSystem.gameObject;
-            UnityEngine.Object.Destroy(eventSystemGO);
-            Transform rigManager = defaultPlayerRig.transform.Find("[RigManager (Blank)]");
-            if (rigManager != null) 
+            RigManagerMarker[] rotObj = UnityEngine.Object.FindObjectsOfType<RigManagerMarker>();
+            foreach (RigManagerMarker rotateobj in rotObj)
             {
-                Transform uiRig = rigManager.Find("[UIRig]");
-                GameObject uiRigGO = uiRig.gameObject;
-                UnityEngine.Object.DestroyImmediate(uiRigGO);
-                Transform specCam = rigManager.Find("Spectator Camera");
-                GameObject specCamGO = specCam.gameObject;
-                UnityEngine.Object.DestroyImmediate(specCamGO);
-                Transform spawnUI = rigManager.Find("SpawnGunUI");
-                GameObject spawnUIGO = spawnUI.gameObject;
-                UnityEngine.Object.DestroyImmediate(spawnUIGO);
-                Transform overlay = rigManager.Find("2D_Overlay");
-                GameObject overlayGO = overlay.gameObject;
-                UnityEngine.Object.DestroyImmediate(overlayGO);
-                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<Volume>());
-                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<PlayerAvatarArt>());
-                Transform physRig = rigManager.transform.Find("[PhysicsRig]");
-                if (physRig != null)
-                {
-                    Transform physHead = physRig.transform.Find("Head");
-                    if (physHead != null)
-                    {
-                        UnityEngine.Object.DestroyImmediate(physHead.GetComponent<WindBuffetSFX>());
-                    }
-                }
-                Transform ocr = rigManager.transform.Find("[OpenControllerRig]");
-                {
-                    if (ocr != null)
-                    {
-                        OpenControllerRig ocrc = ocr.GetComponent<OpenControllerRig>();
-                        ocrc.primaryEnabled = true;
-                        ocrc.jumpEnabled = true;
-                        ocrc.quickmenuEnabled = false;
-                        ocrc.slowMoEnabled = false;
-                        ocrc.autoLiftLegs = true;
-                        ocrc.doubleJump = false;
+                rotateobj.transform.Rotate(Vector3.up, rotationAmount);
+            }
+        }
+        public void Delete()
+        {
+            RigManagerMarker[] rmObj = UnityEngine.Object.FindObjectsOfType<RigManagerMarker>();
+            foreach (RigManagerMarker marker in rmObj)
+            {
+                UnityEngine.Object.Destroy(marker.gameObject);
+            }
+        }
+        public void Scale()
+        {
+            RigManagerMarker[] sObj = UnityEngine.Object.FindObjectsOfType<RigManagerMarker>();
+            foreach (RigManagerMarker scaleobj in sObj)
+            {
+                Vector3 currentScale = scaleobj.transform.localScale;
+                Vector3 newScale = currentScale * scaleAmount;
+                scaleobj.transform.localScale = newScale;
+            }
+        }
+        public void Clone()
+        {
+            MelonLogger.Msg("Storing player position");
+            Vector3 position = Player.physicsRig.m_chest.gameObject.transform.position;
+            position.z += 5f;
 
-                        Transform trackingSpace = ocr.transform.Find("TrackingSpace");
-                        if (trackingSpace != null)
+            MelonLogger.Msg("Spawning rig manager");
+            string barcode = "SLZ.BONELAB.Core.DefaultPlayerRig";
+            SpawnableCrateReference reference = new SpawnableCrateReference(barcode);
+
+            Spawnable spawnable = new Spawnable()
+            {
+                crateRef = reference
+            };
+
+            AssetSpawner.Register(spawnable);
+            MelonLogger.Msg("Fixing rig manager");
+            Action<GameObject> spawnAction = defaultPlayerRig =>
+            {
+                defaultPlayerRig.AddComponent<RigManagerMarker>();
+                Transform playerRigTransform = defaultPlayerRig.transform;
+                Transform eventSystem = defaultPlayerRig.transform.Find("EventSystem");
+                GameObject eventSystemGO = eventSystem.gameObject;
+                UnityEngine.Object.Destroy(eventSystemGO);
+                Transform rigManager = defaultPlayerRig.transform.Find("[RigManager (Blank)]");
+                if (rigManager != null)
+                {
+                    Transform uiRig = rigManager.Find("[UIRig]");
+                    GameObject uiRigGO = uiRig.gameObject;
+                    UnityEngine.Object.DestroyImmediate(uiRigGO);
+                    Transform specCam = rigManager.Find("Spectator Camera");
+                    GameObject specCamGO = specCam.gameObject;
+                    UnityEngine.Object.DestroyImmediate(specCamGO);
+                    //MelonLogger.Msg("SpawnGunUI");
+                    //Transform spawnUI = rigManager.Find("SpawnGunUI");
+                    // GameObject spawnUIGO = spawnUI.gameObject;
+                    //UnityEngine.Object.DestroyImmediate(spawnUIGO);
+                    Transform overlay = rigManager.Find("2D_Overlay");
+                    GameObject overlayGO = overlay.gameObject;
+                    UnityEngine.Object.DestroyImmediate(overlayGO);
+                    UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<Volume>());
+                    UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<PlayerAvatarArt>());
+                    Transform physRig = rigManager.transform.Find("[PhysicsRig]");
+                    if (physRig != null)
+                    {
+                        Transform physHead = physRig.transform.Find("Head");
+                        if (physHead != null)
                         {
-                            Transform rHand = trackingSpace.Find("Hand (right)");
-                            if (rHand != null)
+                            UnityEngine.Object.DestroyImmediate(physHead.GetComponent<WindBuffetSFX>());
+                        }
+                    }
+                    Transform ocr = rigManager.transform.Find("[OpenControllerRig]");
+                    {
+                        if (ocr != null)
+                        {
+                            OpenControllerRig ocrc = ocr.GetComponent<OpenControllerRig>();
+                            ocrc.primaryEnabled = true;
+                            ocrc.jumpEnabled = true;
+                            ocrc.quickmenuEnabled = false;
+                            ocrc.slowMoEnabled = false;
+                            ocrc.autoLiftLegs = true;
+                            ocrc.doubleJump = false;
+
+                            Transform trackingSpace = ocr.transform.Find("TrackingSpace");
+                            if (trackingSpace != null)
                             {
-                                UnityEngine.Object.DestroyImmediate(rHand.GetComponent<UIControllerInput>());
-                                Haptor rHandHaptor = rHand.GetComponent<Haptor>();
-                                rHandHaptor.hapticsAllowed = false;
-                            }
-                            Transform lHand = trackingSpace.Find("Hand (left)");
-                            if (lHand != null)
-                            {
-                                UnityEngine.Object.DestroyImmediate(lHand.GetComponent<UIControllerInput>());
-                                Haptor lHandHaptor = lHand.GetComponent<Haptor>();
-                                lHandHaptor.hapticsAllowed = false;
-                            }
-                            Transform headobj = trackingSpace.Find("Head");
-                            if (headobj != null)
-                            {
-                                headobj.tag = "Untagged";
-                                Camera cameraComponent = headobj.GetComponent<Camera>();
-                                if (cameraComponent != null)
+                                Transform rHand = trackingSpace.Find("Hand (right)");
+                                if (rHand != null)
                                 {
-                                    cameraComponent.enabled = false;
+                                    UnityEngine.Object.DestroyImmediate(rHand.GetComponent<UIControllerInput>());
+                                    Haptor rHandHaptor = rHand.GetComponent<Haptor>();
+                                    rHandHaptor.hapticsAllowed = false;
                                 }
-                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<AudioListener>());
-                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<DebugDraw>());
-                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<XRLODBias>());
-                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<VolumetricPlatformSwitch>());
-                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<StreamingController>());
-                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<VolumetricRendering>());
-                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<UniversalAdditionalCameraData>());
-                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<CameraSettings>());
+                                Transform lHand = trackingSpace.Find("Hand (left)");
+                                if (lHand != null)
+                                {
+                                    UnityEngine.Object.DestroyImmediate(lHand.GetComponent<UIControllerInput>());
+                                    Haptor lHandHaptor = lHand.GetComponent<Haptor>();
+                                    lHandHaptor.hapticsAllowed = false;
+                                }
+                                Transform headobj = trackingSpace.Find("Head");
+                                if (headobj != null)
+                                {
+                                    headobj.tag = "Untagged";
+                                    Camera cameraComponent = headobj.GetComponent<Camera>();
+                                    if (cameraComponent != null)
+                                    {
+                                        cameraComponent.enabled = false;
+                                    }
+                                    UnityEngine.Object.DestroyImmediate(headobj.GetComponent<AudioListener>());
+                                    UnityEngine.Object.DestroyImmediate(headobj.GetComponent<DebugDraw>());
+                                    UnityEngine.Object.DestroyImmediate(headobj.GetComponent<XRLODBias>());
+                                    UnityEngine.Object.DestroyImmediate(headobj.GetComponent<VolumetricPlatformSwitch>());
+                                    UnityEngine.Object.DestroyImmediate(headobj.GetComponent<StreamingController>());
+                                    UnityEngine.Object.DestroyImmediate(headobj.GetComponent<VolumetricRendering>());
+                                    UnityEngine.Object.DestroyImmediate(headobj.GetComponent<UniversalAdditionalCameraData>());
+                                    UnityEngine.Object.DestroyImmediate(headobj.GetComponent<CameraSettings>());
+                                }
                             }
                         }
                     }
                 }
-            }
-        };
-        AssetSpawner.Spawn(spawnable, position, Quaternion.identity, new BoxedNullable<Vector3>(null), false, new BoxedNullable<int>(null), spawnAction);
+            };
+            AssetSpawner.Spawn(spawnable, position, Quaternion.identity, new BoxedNullable<Vector3>(null), false, new BoxedNullable<int>(null), spawnAction);
+        }
     }
 }
