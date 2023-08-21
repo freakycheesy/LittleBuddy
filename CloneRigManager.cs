@@ -13,6 +13,7 @@ using SLZ.SFX;
 using SLZ.Rig;
 using SLZ.UI;
 using UnityEngine.Rendering;
+using static RootMotion.FinalIK.HitReactionVRIK;
 
 public class CloneRigManager
 {
@@ -30,6 +31,8 @@ public class CloneRigManager
     public void Clone()
     {
         Transform head = Player.playerHead.transform;
+        Vector3 newPosition = head.position + new Vector3(0, 0, 3);
+        head.position = newPosition;
 
         string barcode = "SLZ.BONELAB.Core.DefaultPlayerRig";
         SpawnableCrateReference reference = new SpawnableCrateReference(barcode);
