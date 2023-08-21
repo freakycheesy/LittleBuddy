@@ -13,7 +13,6 @@ using SLZ.SFX;
 using SLZ.Rig;
 using SLZ.UI;
 using UnityEngine.Rendering;
-using static RootMotion.FinalIK.HitReactionVRIK;
 
 public class CloneRigManager
 {
@@ -30,9 +29,8 @@ public class CloneRigManager
     }
     public void Clone()
     {
-        Transform head = Player.playerHead.transform;
-        Vector3 newPosition = head.position + new Vector3(0, 0, 3);
-        head.position = newPosition;
+        Vector3 position = Player.physicsRig.m_chest.gameObject.transform.position;
+        position.z += 5f;
 
         string barcode = "SLZ.BONELAB.Core.DefaultPlayerRig";
         SpawnableCrateReference reference = new SpawnableCrateReference(barcode);
@@ -48,23 +46,18 @@ public class CloneRigManager
             defaultPlayerRigStored = defaultPlayerRig;
             Transform playerRigTransform = defaultPlayerRig.transform;
             Transform eventSystem = defaultPlayerRig.transform.Find("EventSystem");
-            GameObject eventSystemGO = eventSystem.gameObject;
-            UnityEngine.Object.Destroy(eventSystemGO);
+            UnityEngine.Object.Destroy(eventSystem.gameObject);
             Transform rigManager = defaultPlayerRig.transform.Find("[RigManager (Blank)]");
             if (rigManager != null) 
             {
                 Transform uiRig = rigManager.Find("[UIRig]");
-                GameObject uiRigGO = uiRig.gameObject;
-                UnityEngine.Object.DestroyImmediate(uiRigGO);
+                UnityEngine.Object.DestroyImmediate(uiRig.gameObject);
                 Transform specCam = rigManager.Find("Spectator Camera");
-                GameObject specCamGO = specCam.gameObject;
-                UnityEngine.Object.DestroyImmediate(specCamGO);
+                UnityEngine.Object.DestroyImmediate(specCam.gameObject);
                 Transform spawnUI = rigManager.Find("SpawnGunUI");
-                GameObject spawnUIGO = spawnUI.gameObject;
-                UnityEngine.Object.DestroyImmediate(spawnUIGO);
+                UnityEngine.Object.DestroyImmediate(spawnUI.gameObject);
                 Transform overlay = rigManager.Find("2D_Overlay");
-                GameObject overlayGO = overlay.gameObject;
-                UnityEngine.Object.DestroyImmediate(overlayGO);
+                UnityEngine.Object.DestroyImmediate(overlay.gameObject);
                 UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<Volume>());
                 UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<PlayerAvatarArt>());
                 Transform physRig = rigManager.transform.Find("[PhysicsRig]");
@@ -128,6 +121,6 @@ public class CloneRigManager
                 }
             }
         };
-        AssetSpawner.Spawn(spawnable, head.transform.position, Quaternion.identity, new BoxedNullable<Vector3>(null), false, new BoxedNullable<int>(null), spawnAction);
+        AssetSpawner.Spawn(spawnable, position, Quaternion.identity, new BoxedNullable<Vector3>(null), false, new BoxedNullable<int>(null), spawnAction);
     }
 }
