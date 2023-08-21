@@ -31,6 +31,16 @@ namespace LittleBuddy
                 "Rotation Degree", Color.white, 90, 5, -180, 180,
                     (float value) => cloneRigManager.rotationAmount = value
             );
+            // Freeze the RM
+            menuCategory.CreateFunctionElement(
+                "Freeze Buddy", Color.blue,
+                    cloneRigManager.Freeze
+            );
+            // Unfreeze the RM
+            menuCategory.CreateFunctionElement(
+                "Freeze Buddy", Color.blue,
+                    cloneRigManager.Unfreeze
+            );
             // Delete the RM
             menuCategory.CreateFunctionElement(
                 "Delete Buddy :(", Color.red,
