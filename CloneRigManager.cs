@@ -6,16 +6,24 @@ using SLZ.Marrow.Pool;
 using SLZ.Marrow.Data;
 using System;
 using SLZ.VRMK;
+using SLZ.Bonelab;
+using SLZ.Marrow;
+using UnityEngine.Rendering.Universal;
+using SLZ.SFX;
+using SLZ.Rig;
+using SLZ.UI;
+using SLZ.Utilities;
+using UnityEngine.Rendering;
 
 public class CloneRigManager
 {
     public string objectToDuplicateName = "[RigManager (Blank)]";
     public Vector3 offset = new Vector3(5, 0, 0);
+    public GameObject go;
 
     public void Delete()
     {
-        GameObject buddyObject = GameObject.Find("Default Player Rig (0)");
-        UnityEngine.Object.Destroy(buddyObject);
+        UnityEngine.Object.Destroy(go);
     }
     public void Clone()
     {
@@ -32,62 +40,93 @@ public class CloneRigManager
         AssetSpawner.Register(spawnable);
         Action<GameObject> spawnAction = go =>
         {
-            Transform rigManager = go.transform.Find("[Rig Manager (Blank)]");
+            Transform rigManager = go.transform.Find("[RigManager (Blank)]");
             if (rigManager != null) 
             {
-                Avatar[] avatarComponents = rigManager.GetComponentsInChildren<Avatar>();
-                foreach (Avatar avatar in avatarComponents)
+                GameObject.DestroyImmediate(rigManager.GetComponent<LineMesh>());
+                GameObject.DestroyImmediate(rigManager.GetComponent<CheatTool>());
+                GameObject.DestroyImmediate(rigManager.GetComponent<UtilitySpawnables>());
+                GameObject.DestroyImmediate(rigManager.GetComponent<TempTextureRef>());
+                GameObject.DestroyImmediate(rigManager.GetComponent<RigVolumeSettings>());
+                GameObject.DestroyImmediate(rigManager.GetComponent<ForceLevels>());
+                GameObject.DestroyImmediate(rigManager.GetComponent<Volume>());
+                Transform physRig = rigManager.transform.Find("[PhysicsRig]");
+                if (physRig != null)
                 {
-                    foreach (var mesh in avatar.hairMeshes)
+                    Transform physHead = physRig.transform.Find("Head");
+                    if (physHead != null)
                     {
-                        mesh.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.TwoSided;
+                        UnityEngine.Object.DestroyImmediate(physHead.GetComponent<WindBuffetSFX>());
                     }
                 }
+                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<PlayerAvatarArt>());
                 Transform uiRig = rigManager.transform.Find("[UIRig]");
                 if (uiRig != null)
                 {
-                    UnityEngine.Object.Destroy(uiRig.gameObject);
+                    UnityEngine.Object.DestroyImmediate(uiRig.gameObject);
                 }
                 Transform spectatorCamera = rigManager.transform.Find("Spectator Camera");
                 if (spectatorCamera != null)
                 {
-                    UnityEngine.Object.Destroy(spectatorCamera.gameObject);
+                    UnityEngine.Object.DestroyImmediate(spectatorCamera.gameObject);
                 }
                 Transform spawnGunUI = rigManager.transform.Find("SpawnGunUI");
                 if (spawnGunUI != null)
                 {
-                    UnityEngine.Object.Destroy(spawnGunUI.gameObject);
+                    UnityEngine.Object.DestroyImmediate(spawnGunUI.gameObject);
                 }
                 Transform eventSystem = rigManager.transform.Find("EventSystem");
                 if (eventSystem != null)
                 {
-                    UnityEngine.Object.Destroy(eventSystem.gameObject);
+                    UnityEngine.Object.DestroyImmediate(eventSystem.gameObject);
                 }
                 Transform twoDOverlay = rigManager.transform.Find("2D_Overlay");
                 if (twoDOverlay != null)
                 {
-                    UnityEngine.Object.Destroy(twoDOverlay.gameObject);
+                    UnityEngine.Object.DestroyImmediate(twoDOverlay.gameObject);
                 }
                 Transform ocr = rigManager.transform.Find("[OpenControllerRig]");
                 {
                     if (ocr != null)
                     {
+                        OpenControllerRig ocrc = ocr.GetComponent<OpenControllerRig>();
+                        ocrc.primaryEnabled = true;
+                        ocrc.jumpEnabled = true;
+                        ocrc.quickmenuEnabled = false;
+                        ocrc.slowMoEnabled = false;
+                        ocrc.autoLiftLegs = true;
+                        ocrc.doubleJump = false;
+
                         Transform trackingSpace = ocr.transform.Find("TrackingSpace");
                         if (trackingSpace != null)
                         {
-                            Transform headobj = trackingSpace.Find("Head");
-                            if (head != null)
+                            Transform rHand = trackingSpace.Find("Hand (right)");
+                            if (rHand != null)
                             {
-                                Camera cameraComponent = headobj.GetComponent<Camera>();
-                                if (cameraComponent != null)
-                                {
-                                    cameraComponent.enabled = false;
-                                }
-                                AudioListener audioListener = headobj.GetComponent<AudioListener>();
-                                if (audioListener != null)
-                                {
-                                    audioListener.enabled = false;
-                                }
+                                UnityEngine.Object.DestroyImmediate(rHand.GetComponent<UIControllerInput>());
+                                Haptor rHandHaptor = rHand.GetComponent<Haptor>();
+                                rHandHaptor.hapticsAllowed = false;
+                            }
+                            Transform lHand = trackingSpace.Find("Hand (left)");
+                            if (lHand != null)
+                            {
+                                UnityEngine.Object.DestroyImmediate(lHand.GetComponent<UIControllerInput>());
+                                Haptor lHandHaptor = lHand.GetComponent<Haptor>();
+                                lHandHaptor.hapticsAllowed = false;
+                            }
+                            Transform headobj = trackingSpace.Find("Head");
+                            if (headobj != null)
+                            {
+                                headobj.tag = "Untagged";
+                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<Camera>());
+                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<AudioListener>());
+                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<DebugDraw>());
+                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<XRLODBias>());
+                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<VolumetricPlatformSwitch>());
+                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<StreamingController>());
+                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<VolumetricRendering>());
+                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<UniversalAdditionalCameraData>());
+                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<CameraSettings>());
                             }
                         }
                     }
