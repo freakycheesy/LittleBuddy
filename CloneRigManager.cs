@@ -13,19 +13,34 @@ using SLZ.SFX;
 using SLZ.Rig;
 using SLZ.UI;
 using UnityEngine.Rendering;
+using MelonLoader;
 
+[RegisterTypeInIl2Cpp]
+class RigManagerMarker : MonoBehaviour
+{
+#if !UNITY_EDITOR
+    public RigManagerMarker(IntPtr ptr) : base(ptr) { }
+#endif
+}
 public class CloneRigManager
 {
-    private GameObject defaultPlayerRigStored;
     public float rotationAmount;
 
     public void Rotate()
     {
-        defaultPlayerRigStored.transform.Rotate(Vector3.up, rotationAmount);
+        RigManagerMarker[] rotObj = UnityEngine.Object.FindObjectsOfType<RigManagerMarker>();
+        foreach (RigManagerMarker rotateobj in rotObj)
+        {
+            rotateobj.transform.Rotate(Vector3.up, rotationAmount);
+        }
     }
     public void Delete()
     {
-        UnityEngine.Object.Destroy(defaultPlayerRigStored);
+        RigManagerMarker[] rmObj = UnityEngine.Object.FindObjectsOfType<RigManagerMarker>();
+        foreach (RigManagerMarker marker in rmObj)
+        {
+            UnityEngine.Object.Destroy(marker.gameObject);
+        }
     }
     public void Clone()
     {
@@ -43,7 +58,7 @@ public class CloneRigManager
         AssetSpawner.Register(spawnable);
         Action<GameObject> spawnAction = defaultPlayerRig =>
         {
-            defaultPlayerRigStored = defaultPlayerRig;
+            defaultPlayerRig.gameObject.AddComponent<RigManagerMarker>();
             Transform playerRigTransform = defaultPlayerRig.transform;
             Transform eventSystem = defaultPlayerRig.transform.Find("EventSystem");
             UnityEngine.Object.Destroy(eventSystem.gameObject);
