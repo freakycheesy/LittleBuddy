@@ -28,7 +28,7 @@ namespace LittleBuddy
                     cloneRigManager.Rotate
             );
             menuCategory.CreateFloatElement(
-                "Rotation Speed", Color.white, 90, 5, 0, 180,
+                "Rotation Degree", Color.white, 90, 5, 0, 180,
                     (float value) => cloneRigManager.rotationAmount = value
             );
             // Delete the RM

@@ -18,11 +18,12 @@ using UnityEngine.Rendering;
 public class CloneRigManager
 {
     private GameObject defaultPlayerRigStored;
+    private GameObject ocrStored;
     public float rotationAmount;
 
     public void Rotate()
     {
-        defaultPlayerRigStored.transform.Rotate(Vector3.up, rotationAmount);
+        ocrStored.transform.Rotate(Vector3.up, rotationAmount);
     }
     public void Delete()
     {
@@ -48,17 +49,11 @@ public class CloneRigManager
             if (rigManager != null) 
             {
                 UnityEngine.Object.DestroyImmediate(rigManager.Find("EventSystem"));
-                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<LineMesh>());
-                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<CheatTool>());
-                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<UtilitySpawnables>());
-                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<TempTextureRef>());
-                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<RigVolumeSettings>());
-                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<ForceLevels>());
-                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<Volume>());
                 UnityEngine.Object.DestroyImmediate(rigManager.Find("[UIRig]"));
                 UnityEngine.Object.DestroyImmediate(rigManager.Find("Spectator Camera"));
                 UnityEngine.Object.DestroyImmediate(rigManager.Find("SpawnGunUI"));
                 UnityEngine.Object.DestroyImmediate(rigManager.Find("2D_Overlay"));
+                UnityEngine.Object.DestroyImmediate(rigManager.Find("Volume"));
                 UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<PlayerAvatarArt>());
                 Transform physRig = rigManager.transform.Find("[PhysicsRig]");
                 if (physRig != null)
@@ -73,6 +68,7 @@ public class CloneRigManager
                 {
                     if (ocr != null)
                     {
+                        ocrStored = ocr;
                         OpenControllerRig ocrc = ocr.GetComponent<OpenControllerRig>();
                         ocrc.primaryEnabled = true;
                         ocrc.jumpEnabled = true;
