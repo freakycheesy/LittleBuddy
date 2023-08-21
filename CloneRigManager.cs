@@ -12,16 +12,16 @@ using UnityEngine.Rendering.Universal;
 using SLZ.SFX;
 using SLZ.Rig;
 using SLZ.UI;
+using UnityEngine.Rendering;
 
 public class CloneRigManager
 {
     private GameObject defaultPlayerRigStored;
-    private GameObject ocrGOStored;
     public float rotationAmount;
 
     public void Rotate()
     {
-        ocrGOStored.transform.Rotate(Vector3.up, rotationAmount);
+        defaultPlayerRigStored.transform.Rotate(Vector3.up, rotationAmount);
     }
     public void Delete()
     {
@@ -43,8 +43,6 @@ public class CloneRigManager
         Action<GameObject> spawnAction = defaultPlayerRig =>
         {
             defaultPlayerRigStored = defaultPlayerRig;
-            GameObject ocrGO = GameObject.Find("[OpenControllerRig]");
-            ocrGOStored = ocrGO;
             Transform rigManager = defaultPlayerRig.transform.Find("[RigManager (Blank)]");
             if (rigManager != null) 
             {
@@ -53,7 +51,7 @@ public class CloneRigManager
                 UnityEngine.Object.DestroyImmediate(rigManager.Find("Spectator Camera"));
                 UnityEngine.Object.DestroyImmediate(rigManager.Find("SpawnGunUI"));
                 UnityEngine.Object.DestroyImmediate(rigManager.Find("2D_Overlay"));
-                UnityEngine.Object.DestroyImmediate(rigManager.Find("Volume"));
+                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<Volume>());
                 UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<PlayerAvatarArt>());
                 Transform physRig = rigManager.transform.Find("[PhysicsRig]");
                 if (physRig != null)
