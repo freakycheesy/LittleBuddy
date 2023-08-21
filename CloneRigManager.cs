@@ -12,18 +12,16 @@ using UnityEngine.Rendering.Universal;
 using SLZ.SFX;
 using SLZ.Rig;
 using SLZ.UI;
-using SLZ.Utilities;
-using UnityEngine.Rendering;
 
 public class CloneRigManager
 {
     private GameObject defaultPlayerRigStored;
-    private GameObject ocrStored;
+    private GameObject ocrGOStored;
     public float rotationAmount;
 
     public void Rotate()
     {
-        ocrStored.transform.Rotate(Vector3.up, rotationAmount);
+        ocrGOStored.transform.Rotate(Vector3.up, rotationAmount);
     }
     public void Delete()
     {
@@ -45,6 +43,8 @@ public class CloneRigManager
         Action<GameObject> spawnAction = defaultPlayerRig =>
         {
             defaultPlayerRigStored = defaultPlayerRig;
+            GameObject ocrGO = GameObject.Find("[OpenControllerRig]");
+            ocrGOStored = ocrGO;
             Transform rigManager = defaultPlayerRig.transform.Find("[RigManager (Blank)]");
             if (rigManager != null) 
             {
@@ -68,7 +68,6 @@ public class CloneRigManager
                 {
                     if (ocr != null)
                     {
-                        ocrStored = ocr;
                         OpenControllerRig ocrc = ocr.GetComponent<OpenControllerRig>();
                         ocrc.primaryEnabled = true;
                         ocrc.jumpEnabled = true;
