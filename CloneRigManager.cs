@@ -61,18 +61,23 @@ public class CloneRigManager
             defaultPlayerRig.gameObject.AddComponent<RigManagerMarker>();
             Transform playerRigTransform = defaultPlayerRig.transform;
             Transform eventSystem = defaultPlayerRig.transform.Find("EventSystem");
-            UnityEngine.Object.Destroy(eventSystem.gameObject);
+            GameObject eventSystemGO = eventSystem.gameObject;
+            UnityEngine.Object.Destroy(eventSystemGO);
             Transform rigManager = defaultPlayerRig.transform.Find("[RigManager (Blank)]");
             if (rigManager != null) 
             {
                 Transform uiRig = rigManager.Find("[UIRig]");
-                UnityEngine.Object.DestroyImmediate(uiRig.gameObject);
+                GameObject uiRigGO = uiRig.gameObject;
+                UnityEngine.Object.DestroyImmediate(uiRigGO);
                 Transform specCam = rigManager.Find("Spectator Camera");
-                UnityEngine.Object.DestroyImmediate(specCam.gameObject);
+                GameObject specCamGO = specCam.gameObject;
+                UnityEngine.Object.DestroyImmediate(specCamGO);
                 Transform spawnUI = rigManager.Find("SpawnGunUI");
-                UnityEngine.Object.DestroyImmediate(spawnUI.gameObject);
+                GameObject spawnUIGO = spawnUI.gameObject;
+                UnityEngine.Object.DestroyImmediate(spawnUIGO);
                 Transform overlay = rigManager.Find("2D_Overlay");
-                UnityEngine.Object.DestroyImmediate(overlay.gameObject);
+                GameObject overlayGO = overlay.gameObject;
+                UnityEngine.Object.DestroyImmediate(overlayGO);
                 UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<Volume>());
                 UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<PlayerAvatarArt>());
                 Transform physRig = rigManager.transform.Find("[PhysicsRig]");
