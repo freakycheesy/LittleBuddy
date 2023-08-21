@@ -21,13 +21,12 @@ namespace LittleBuddy
     public class CloneRigManager
     {
         public float rotationAmount;
-        public float scaleAmount;
         public void Rotate()
         {
             RigManagerMarker[] rotObj = UnityEngine.Object.FindObjectsOfType<RigManagerMarker>();
-            foreach (RigManagerMarker rotateobj in rotObj)
+            foreach (RigManagerMarker marker in rotObj)
             {
-                rotateobj.transform.Rotate(Vector3.up, rotationAmount);
+                marker.transform.Rotate(Vector3.up, rotationAmount);
             }
         }
         public void Delete()
@@ -36,16 +35,6 @@ namespace LittleBuddy
             foreach (RigManagerMarker marker in rmObj)
             {
                 UnityEngine.Object.Destroy(marker.gameObject);
-            }
-        }
-        public void Scale()
-        {
-            RigManagerMarker[] sObj = UnityEngine.Object.FindObjectsOfType<RigManagerMarker>();
-            foreach (RigManagerMarker scaleobj in sObj)
-            {
-                Vector3 currentScale = scaleobj.transform.localScale;
-                Vector3 newScale = currentScale * scaleAmount;
-                scaleobj.transform.localScale = newScale;
             }
         }
         public void Clone()
