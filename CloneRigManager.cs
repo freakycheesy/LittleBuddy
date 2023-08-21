@@ -41,14 +41,19 @@ public class CloneRigManager
             Transform rigManager = go.transform.Find("[RigManager (Blank)]");
             if (rigManager != null) 
             {
-                GameObject.DestroyImmediate(rigManager.Find("EventSystem"));
-                GameObject.DestroyImmediate(rigManager.GetComponent<LineMesh>());
-                GameObject.DestroyImmediate(rigManager.GetComponent<CheatTool>());
-                GameObject.DestroyImmediate(rigManager.GetComponent<UtilitySpawnables>());
-                GameObject.DestroyImmediate(rigManager.GetComponent<TempTextureRef>());
-                GameObject.DestroyImmediate(rigManager.GetComponent<RigVolumeSettings>());
-                GameObject.DestroyImmediate(rigManager.GetComponent<ForceLevels>());
-                GameObject.DestroyImmediate(rigManager.GetComponent<Volume>());
+                UnityEngine.Object.DestroyImmediate(rigManager.Find("EventSystem"));
+                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<LineMesh>());
+                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<CheatTool>());
+                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<UtilitySpawnables>());
+                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<TempTextureRef>());
+                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<RigVolumeSettings>());
+                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<ForceLevels>());
+                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<Volume>());
+                UnityEngine.Object.DestroyImmediate(rigManager.Find("[UIRig]"));
+                UnityEngine.Object.DestroyImmediate(rigManager.Find("Spectator Camera"));
+                UnityEngine.Object.DestroyImmediate(rigManager.Find("SpawnGunUI"));
+                UnityEngine.Object.DestroyImmediate(rigManager.Find("2D_Overlay"));
+                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<PlayerAvatarArt>());
                 Transform physRig = rigManager.transform.Find("[PhysicsRig]");
                 if (physRig != null)
                 {
@@ -57,32 +62,6 @@ public class CloneRigManager
                     {
                         UnityEngine.Object.DestroyImmediate(physHead.GetComponent<WindBuffetSFX>());
                     }
-                }
-                UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<PlayerAvatarArt>());
-                Transform uiRig = rigManager.transform.Find("[UIRig]");
-                if (uiRig != null)
-                {
-                    UnityEngine.Object.DestroyImmediate(uiRig.gameObject);
-                }
-                Transform spectatorCamera = rigManager.transform.Find("Spectator Camera");
-                if (spectatorCamera != null)
-                {
-                    UnityEngine.Object.DestroyImmediate(spectatorCamera.gameObject);
-                }
-                Transform spawnGunUI = rigManager.transform.Find("SpawnGunUI");
-                if (spawnGunUI != null)
-                {
-                    UnityEngine.Object.DestroyImmediate(spawnGunUI.gameObject);
-                }
-                Transform eventSystem = rigManager.transform.Find("EventSystem");
-                if (eventSystem != null)
-                {
-                    UnityEngine.Object.DestroyImmediate(eventSystem.gameObject);
-                }
-                Transform twoDOverlay = rigManager.transform.Find("2D_Overlay");
-                if (twoDOverlay != null)
-                {
-                    UnityEngine.Object.DestroyImmediate(twoDOverlay.gameObject);
                 }
                 Transform ocr = rigManager.transform.Find("[OpenControllerRig]");
                 {
