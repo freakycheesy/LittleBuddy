@@ -17,8 +17,6 @@ using UnityEngine.Rendering;
 
 public class CloneRigManager
 {
-    public string objectToDuplicateName = "[RigManager (Blank)]";
-    public Vector3 offset = new Vector3(5, 0, 0);
     public GameObject go;
 
     public void Delete()
@@ -43,6 +41,7 @@ public class CloneRigManager
             Transform rigManager = go.transform.Find("[RigManager (Blank)]");
             if (rigManager != null) 
             {
+                GameObject.DestroyImmediate(rigManager.Find("EventSystem"));
                 GameObject.DestroyImmediate(rigManager.GetComponent<LineMesh>());
                 GameObject.DestroyImmediate(rigManager.GetComponent<CheatTool>());
                 GameObject.DestroyImmediate(rigManager.GetComponent<UtilitySpawnables>());
@@ -118,7 +117,11 @@ public class CloneRigManager
                             if (headobj != null)
                             {
                                 headobj.tag = "Untagged";
-                                UnityEngine.Object.DestroyImmediate(headobj.GetComponent<Camera>());
+                                Camera cameraComponent = headobj.GetComponent<Camera>();
+                                if (cameraComponent != null)
+                                {
+                                    cameraComponent.enabled = false;
+                                }
                                 UnityEngine.Object.DestroyImmediate(headobj.GetComponent<AudioListener>());
                                 UnityEngine.Object.DestroyImmediate(headobj.GetComponent<DebugDraw>());
                                 UnityEngine.Object.DestroyImmediate(headobj.GetComponent<XRLODBias>());
