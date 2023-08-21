@@ -43,14 +43,25 @@ public class CloneRigManager
         Action<GameObject> spawnAction = defaultPlayerRig =>
         {
             defaultPlayerRigStored = defaultPlayerRig;
+            Transform playerRigTransform = defaultPlayerRig.transform;
+            Transform eventSystem = defaultPlayerRig.transform.Find("EventSystem");
+            GameObject eventSystemGO = eventSystem.gameObject;
+            UnityEngine.Object.Destroy(eventSystemGO);
             Transform rigManager = defaultPlayerRig.transform.Find("[RigManager (Blank)]");
             if (rigManager != null) 
             {
-                UnityEngine.Object.DestroyImmediate(rigManager.Find("EventSystem"));
-                UnityEngine.Object.DestroyImmediate(rigManager.Find("[UIRig]"));
-                UnityEngine.Object.DestroyImmediate(rigManager.Find("Spectator Camera"));
-                UnityEngine.Object.DestroyImmediate(rigManager.Find("SpawnGunUI"));
-                UnityEngine.Object.DestroyImmediate(rigManager.Find("2D_Overlay"));
+                Transform uiRig = rigManager.Find("[UIRig]");
+                GameObject uiRigGO = uiRig.gameObject;
+                UnityEngine.Object.DestroyImmediate(uiRigGO);
+                Transform specCam = rigManager.Find("Spectator Camera");
+                GameObject specCamGO = specCam.gameObject;
+                UnityEngine.Object.DestroyImmediate(specCamGO);
+                Transform spawnUI = rigManager.Find("SpawnGunUI");
+                GameObject spawnUIGO = spawnUI.gameObject;
+                UnityEngine.Object.DestroyImmediate(spawnUIGO);
+                Transform overlay = rigManager.Find("2D_Overlay");
+                GameObject overlayGO = overlay.gameObject;
+                UnityEngine.Object.DestroyImmediate(overlayGO);
                 UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<Volume>());
                 UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<PlayerAvatarArt>());
                 Transform physRig = rigManager.transform.Find("[PhysicsRig]");
