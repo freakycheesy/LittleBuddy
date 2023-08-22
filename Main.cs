@@ -33,12 +33,12 @@ namespace LittleBuddy
             );
             // Freeze the RM
             menuCategory.CreateFunctionElement(
-                "Freeze Buddy", Color.blue,
+                "Freeze Buddy", Color.cyan,
                     cloneRigManager.Freeze
             );
             // Unfreeze the RM
             menuCategory.CreateFunctionElement(
-                "Freeze Buddy", Color.blue,
+                "Unfreeze Buddy", Color.yellow,
                     cloneRigManager.Unfreeze
             );
             // Delete the RM

@@ -24,23 +24,33 @@ namespace LittleBuddy
 
         public void Freeze()
         {
-            // Get the controller rig and disable input
-            OpenControllerRigMarker[] controllerRigs = UnityEngine.Object.FindObjectsOfType<OpenControllerRigMarker>();
-            foreach (OpenControllerRigMarker controllerRig in controllerRigs)
+            // Get the default player rig
+            DefaultPlayerRigMarker[] defaultPlayerRig = UnityEngine.Object.FindObjectsOfType<DefaultPlayerRigMarker>();
+            foreach (DefaultPlayerRigMarker playerRig in defaultPlayerRig)
             {
-                OpenControllerRig ocr = controllerRig.GetComponent<OpenControllerRig>();
-                ocr.primaryEnabled = false;
+                // Get all rigidbodies
+                Rigidbody[] rbs = playerRig.GetComponentsInChildren<Rigidbody>();
+                foreach (Rigidbody rb in rbs)
+                {
+                    // Essentially freeze the rigidbody
+                    rb.isKinematic = true;
+                }
             }
         }
 
         public void Unfreeze()
         {
-            // Get the controller rig and enable input
-            OpenControllerRigMarker[] controllerRigs = UnityEngine.Object.FindObjectsOfType<OpenControllerRigMarker>();
-            foreach (OpenControllerRigMarker controllerRig in controllerRigs)
+            // Get the default player rig
+            DefaultPlayerRigMarker[] defaultPlayerRig = UnityEngine.Object.FindObjectsOfType<DefaultPlayerRigMarker>();
+            foreach (DefaultPlayerRigMarker playerRig in defaultPlayerRig)
             {
-                OpenControllerRig ocr = controllerRig.GetComponent<OpenControllerRig>();
-                ocr.primaryEnabled = true;
+                // Get all rigidbodies
+                Rigidbody[] rbs = playerRig.GetComponentsInChildren<Rigidbody>();
+                foreach (Rigidbody rb in rbs)
+                {
+                    // Unfreeze the rigidbody
+                    rb.isKinematic = false;
+                }
             }
         }
         public void Rotate()
