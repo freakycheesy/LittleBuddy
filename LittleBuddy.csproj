@@ -37,9 +37,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="BuildInfo.cs" />
-    <Compile Include="OpenControllerRigMarker.cs" />
     <Compile Include="DefaultPlayerRigMarker.cs" />
-    <Compile Include="RigManagerMarker.cs" />
     <Compile Include="CloneRigManager.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

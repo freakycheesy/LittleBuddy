@@ -113,8 +113,6 @@ namespace LittleBuddy
                     {
                         UnityEngine.Object.Destroy(triggerProxy);
                     }
-                    // Useful for controlling parts of the rigmanager later
-                    rigManager.gameObject.AddComponent<RigManagerMarker>();
                     // We don't actually want to destroy the UI rig, it may break something, so I disable it.
                     Transform uiRig = rigManager.Find("[UIRig]");
                     //UnityEngine.Object.DestroyImmediate(uiRig.gameObject);
@@ -162,8 +160,6 @@ namespace LittleBuddy
                     {
                         if (ocr != null)
                         {
-                            // Useful for disabling all input later
-                            ocr.gameObject.AddComponent<OpenControllerRigMarker>();
                             // Disables unneeded inputs
                             OpenControllerRig ocrc = ocr.GetComponent<OpenControllerRig>();
                             ocrc.primaryEnabled = true;
