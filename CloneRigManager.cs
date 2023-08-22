@@ -15,6 +15,7 @@ using SLZ.UI;
 using UnityEngine.Rendering;
 using MelonLoader;
 using SLZ.Utilities;
+using TheLibraryElectric;
 
 namespace LittleBuddy
 {
@@ -97,6 +98,14 @@ namespace LittleBuddy
                 Transform rigManager = defaultPlayerRig.transform.Find("[RigManager (Blank)]");
                 if (rigManager != null)
                 {
+                    // Find all RBs
+                    Rigidbody[] rbs = defaultPlayerRig.GetComponentsInChildren<Rigidbody>();
+                    foreach (Rigidbody rb in rbs)
+                    {
+                        // Make it so that my other mod does not conflict with this
+                        // damn you me
+                        rb.gameObject.AddComponent<DoNotFreeze>();
+                    }
                     // Make the rigmanager unable to take damage
                     Player_Health playerHealth = rigManager.GetComponent<Player_Health>();
                     playerHealth.damageFromAttack = false;
