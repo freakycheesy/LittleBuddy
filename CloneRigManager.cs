@@ -141,18 +141,7 @@ namespace LittleBuddy
                     UnityEngine.Object.DestroyImmediate(overlay.gameObject);
                     // Remove unneeded components on the rigmanager
                     UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<Volume>());
-                    UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<LineMesh>());
-                    UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<CheatTool>());
-                    UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<UtilitySpawnables>());
-                    UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<TempTextureRef>());
-                    UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<RigVolumeSettings>());
-                    UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<ForceLevels>());
-                    // Fusion does this to their rigmanager, we should too
-                    var screenOptions = rigManager.GetComponent<RigScreenOptions>();
-                    UnityEngine.Object.DestroyImmediate(screenOptions.cam.gameObject);
-                    UnityEngine.Object.DestroyImmediate(screenOptions.OverlayCam.gameObject);
-                    UnityEngine.Object.DestroyImmediate(screenOptions);
-                    // Avatar stuff
+                    // Avatar stuff i think
                     RigManager rigManagerC = rigManager.GetComponent<RigManager>();
                     rigManagerC.loadAvatarFromSaveData = false;
                     // Fixes the hair mesh not appearing
