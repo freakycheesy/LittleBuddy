@@ -13,9 +13,8 @@ using SLZ.SFX;
 using SLZ.Rig;
 using SLZ.UI;
 using UnityEngine.Rendering;
-using MelonLoader;
-using SLZ.Utilities;
 using TheLibraryElectric;
+using SLZ.Marrow.SceneStreaming;
 
 namespace LittleBuddy
 {
@@ -65,12 +64,7 @@ namespace LittleBuddy
         }
         public void Delete()
         {
-            // Get every object with the DefaultPlayerRigMarker component and delete them all, in case the player spawned many clones
-            DefaultPlayerRigMarker[] rmObj = UnityEngine.Object.FindObjectsOfType <DefaultPlayerRigMarker>();
-            foreach (DefaultPlayerRigMarker marker in rmObj)
-            {
-                UnityEngine.Object.Destroy(marker.gameObject);
-            }
+            SceneStreamer.Reload();
         }
         public void Clone()
         {
@@ -87,11 +81,12 @@ namespace LittleBuddy
             };
 
             AssetSpawner.Register(spawnable);
-            MelonLogger.Msg("Fixing rig manager");
             Action<GameObject> spawnAction = defaultPlayerRig =>
             {
                 // Cleans up the rigmanager to prevent UI breaking
                 defaultPlayerRig.AddComponent<DefaultPlayerRigMarker>();
+                // Prevents my black hole from deleting it
+                defaultPlayerRig.AddComponent<DoNotDestroy>();
                 Transform playerRigTransform = defaultPlayerRig.transform;
                 Transform eventSystem = defaultPlayerRig.transform.Find("EventSystem");
                 UnityEngine.Object.Destroy(eventSystem.gameObject);

@@ -5,7 +5,7 @@ using MelonLoader;
 [assembly: AssemblyDescription(LittleBuddy.Main.Description)]
 [assembly: AssemblyCompany(LittleBuddy.Main.Company)]
 [assembly: AssemblyProduct(LittleBuddy.Main.Name)]
-[assembly: AssemblyCopyright("Developed by CarrionAndOn" + LittleBuddy.Main.Author)]
+[assembly: AssemblyCopyright("Developed by " + LittleBuddy.Main.Author)]
 [assembly: AssemblyTrademark(LittleBuddy.Main.Company)]
 [assembly: AssemblyVersion(LittleBuddy.Main.Version)]
 [assembly: AssemblyFileVersion(LittleBuddy.Main.Version)]

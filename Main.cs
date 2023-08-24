@@ -41,9 +41,9 @@ namespace LittleBuddy
                 "Unfreeze Buddy", Color.yellow,
                     cloneRigManager.Unfreeze
             );
-            // Delete the RM
+            // Delete the RM, which really is just reloading the scene
             menuCategory.CreateFunctionElement(
-                "Delete Buddy :(", Color.red,
+                "Reload Scene", Color.red,
                     cloneRigManager.Delete
             );
         }
