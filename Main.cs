@@ -7,10 +7,10 @@ namespace LittleBuddy
 {
     internal partial class Main : MelonMod
     {
-        public static CloneRigManager cloneRigManager;
+        private static CloneRigManager _cloneRigManager;
         public override void OnInitializeMelon()
         {
-            cloneRigManager = new CloneRigManager();
+            _cloneRigManager = new CloneRigManager();
             SetupBonemenu();
         }
         public static void SetupBonemenu()
@@ -20,31 +20,31 @@ namespace LittleBuddy
             menuCategory.CreateFunctionElement(
                 "Spawn Buddy :D",
                 Color.green,
-                    cloneRigManager.Clone
+                    _cloneRigManager.Clone
             );
             // Rotate the RM
             menuCategory.CreateFunctionElement(
                 "Rotate Buddy", Color.white,
-                    cloneRigManager.Rotate
+                    _cloneRigManager.Rotate
             );
             menuCategory.CreateFloatElement(
                 "Rotation Degree", Color.white, 90, 5, -180, 180,
-                    (float value) => cloneRigManager.rotationAmount = value
+                    (float value) => _cloneRigManager.RotationAmount = value
             );
             // Freeze the RM
             menuCategory.CreateFunctionElement(
                 "Freeze Buddy", Color.cyan,
-                    cloneRigManager.Freeze
+                    _cloneRigManager.Freeze
             );
             // Unfreeze the RM
             menuCategory.CreateFunctionElement(
                 "Unfreeze Buddy", Color.yellow,
-                    cloneRigManager.Unfreeze
+                    _cloneRigManager.Unfreeze
             );
             // Delete the RM, which really is just reloading the scene
             menuCategory.CreateFunctionElement(
                 "Reload Scene", Color.red,
-                    cloneRigManager.Delete
+                    _cloneRigManager.Delete
             );
         }
     }
