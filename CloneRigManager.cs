@@ -13,14 +13,14 @@ using SLZ.SFX;
 using SLZ.Rig;
 using SLZ.UI;
 using UnityEngine.Rendering;
-using TheLibraryElectric;
+using TheLibraryElectric.Markers;
 using SLZ.Marrow.SceneStreaming;
 
 namespace LittleBuddy
 {
     public class CloneRigManager
     {
-        public float rotationAmount;
+        public float RotationAmount;
 
         public void Freeze()
         {
@@ -59,7 +59,7 @@ namespace LittleBuddy
             DefaultPlayerRigMarker[] rotObj = UnityEngine.Object.FindObjectsOfType<DefaultPlayerRigMarker>();
             foreach (DefaultPlayerRigMarker marker in rotObj)
             {
-                marker.transform.Rotate(Vector3.up, rotationAmount);
+                marker.transform.Rotate(Vector3.up, RotationAmount);
             }
         }
         public void Delete()
@@ -81,9 +81,9 @@ namespace LittleBuddy
             };
 
             AssetSpawner.Register(spawnable);
+            // Cleans up the rigmanager to prevent UI breaking
             Action<GameObject> spawnAction = defaultPlayerRig =>
             {
-                // Cleans up the rigmanager to prevent UI breaking
                 defaultPlayerRig.AddComponent<DefaultPlayerRigMarker>();
                 // Prevents my black hole from deleting it
                 defaultPlayerRig.AddComponent<DoNotDestroy>();
