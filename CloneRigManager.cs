@@ -11,6 +11,7 @@ using Il2CppSLZ.Marrow;
 using Il2CppSLZ.Marrow.Audio;
 using Il2CppSLZ.Bonelab;
 using Il2Cpp;
+using MelonLoader;
 
 namespace LittleBuddy
 {
@@ -78,8 +79,9 @@ namespace LittleBuddy
 
             AssetSpawner.Register(spawnable);
             // Cleans up the rigmanager to prevent UI breaking
-            Action<GameObject> spawnAction = defaultPlayerRig =>
+            System.Action<GameObject> spawnAction = defaultPlayerRig =>
             {
+                MelonLogger.Msg("Started Spawn Action");
                 defaultPlayerRig.AddComponent<DefaultPlayerRigMarker>();
                 // Prevents my black hole from deleting it
                 Transform playerRigTransform = defaultPlayerRig.transform;
@@ -201,8 +203,18 @@ namespace LittleBuddy
                         }
                     }
                 }
+                MelonLogger.Msg("Ended Spawn Action");
             };
-            AssetSpawner.Spawn(spawnable, position, Quaternion.identity, null, null, false, null, spawnAction);
+            var scale = new Il2CppSystem.Nullable<Vector3>(Vector3.one) {
+                hasValue = false,
+            };
+
+            var groupId = new Il2CppSystem.Nullable<int>(0) {
+                hasValue = false,
+            };
+
+            Il2CppSystem.Action<GameObject> il2cppSpawnAction = spawnAction;
+            AssetSpawner.Spawn(spawnable, position, Quaternion.identity, scale, null, false, groupId, spawnAction, null);
         }
     }
 }
