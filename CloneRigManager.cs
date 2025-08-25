@@ -1,20 +1,16 @@
-﻿using BoneLib.Nullables;
-using BoneLib;
+﻿using BoneLib;
 using UnityEngine;
-using SLZ.Marrow.Warehouse;
-using SLZ.Marrow.Pool;
-using SLZ.Marrow.Data;
 using System;
-using SLZ.VRMK;
-using SLZ.Bonelab;
-using SLZ.Marrow;
 using UnityEngine.Rendering.Universal;
-using SLZ.SFX;
-using SLZ.Rig;
-using SLZ.UI;
 using UnityEngine.Rendering;
-using TheLibraryElectric.Markers;
-using SLZ.Marrow.SceneStreaming;
+using Il2CppSLZ.Marrow.Warehouse;
+using Il2CppSLZ.Marrow.SceneStreaming;
+using Il2CppSLZ.Marrow.Data;
+using Il2CppSLZ.Marrow.Pool;
+using Il2CppSLZ.Marrow;
+using Il2CppSLZ.Marrow.Audio;
+using Il2CppSLZ.Bonelab;
+using Il2Cpp;
 
 namespace LittleBuddy
 {
@@ -69,7 +65,7 @@ namespace LittleBuddy
         public void Clone()
         {
             // Makes sure the clone spawns a bit away from the player
-            Vector3 position = Player.physicsRig.m_chest.gameObject.transform.position;
+            Vector3 position = Player.PhysicsRig.m_chest.gameObject.transform.position;
             position.z += 3f;
 
             string barcode = "SLZ.BONELAB.Core.DefaultPlayerRig";
@@ -86,24 +82,15 @@ namespace LittleBuddy
             {
                 defaultPlayerRig.AddComponent<DefaultPlayerRigMarker>();
                 // Prevents my black hole from deleting it
-                defaultPlayerRig.AddComponent<DoNotDestroy>();
                 Transform playerRigTransform = defaultPlayerRig.transform;
                 Transform eventSystem = defaultPlayerRig.transform.Find("EventSystem");
                 UnityEngine.Object.Destroy(eventSystem.gameObject);
                 Transform rigManager = defaultPlayerRig.transform.Find("[RigManager (Blank)]");
                 if (rigManager != null)
                 {
-                    // Find all RBs
-                    Rigidbody[] rbs = defaultPlayerRig.GetComponentsInChildren<Rigidbody>();
-                    foreach (Rigidbody rb in rbs)
-                    {
-                        // Make it so that my other mod does not conflict with this
-                        // damn you me
-                        rb.gameObject.AddComponent<DoNotFreeze>();
-                    }
                     // Make the rigmanager unable to take damage
                     Player_Health playerHealth = rigManager.GetComponent<Player_Health>();
-                    playerHealth.damageFromAttack = false;
+                    playerHealth.damageFromImpact = false;
                     playerHealth.healthMode = Health.HealthMode.Invincible;
                     // Remove all damage recievers so you don't take damage when the clone does
                     PlayerDamageReceiver[] damageReceivers = UnityEngine.Object.FindObjectsOfType<PlayerDamageReceiver>();
@@ -145,7 +132,6 @@ namespace LittleBuddy
                     UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<Volume>());
                     // Avatar stuff i think
                     RigManager rigManagerC = rigManager.GetComponent<RigManager>();
-                    rigManagerC.loadAvatarFromSaveData = false;
                     // Fixes the hair mesh not appearing
                     UnityEngine.Object.DestroyImmediate(rigManager.GetComponent<PlayerAvatarArt>());
                     Transform physRig = rigManager.transform.Find("[PhysicsRig]");
@@ -166,12 +152,12 @@ namespace LittleBuddy
                         {
                             // Disables unneeded inputs
                             OpenControllerRig ocrc = ocr.GetComponent<OpenControllerRig>();
-                            ocrc.primaryEnabled = true;
-                            ocrc.jumpEnabled = true;
-                            ocrc.quickmenuEnabled = false;
-                            ocrc.slowMoEnabled = false;
-                            ocrc.autoLiftLegs = true;
-                            ocrc.doubleJump = false;
+                            //ocrc.primaryEnabled = true;
+                            //ocrc.jumpEnabled = true;
+                            //ocrc.quickmenuEnabled = false;
+                            //ocrc.slowMoEnabled = false;
+                            //ocrc.autoLiftLegs = true;
+                            //ocrc.doubleJump = false;
 
                             Transform trackingSpace = ocr.transform.Find("TrackingSpace");
                             if (trackingSpace != null)
@@ -216,7 +202,7 @@ namespace LittleBuddy
                     }
                 }
             };
-            AssetSpawner.Spawn(spawnable, position, Quaternion.identity, new BoxedNullable<Vector3>(null), false, new BoxedNullable<int>(null), spawnAction);
+            AssetSpawner.Spawn(spawnable, position, Quaternion.identity, null, null, false, null, spawnAction);
         }
     }
 }

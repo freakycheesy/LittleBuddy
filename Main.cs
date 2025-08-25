@@ -1,6 +1,5 @@
 ﻿using MelonLoader;
 using UnityEngine;
-using BoneLib.BoneMenu.Elements;
 using BoneLib.BoneMenu;
 
 namespace LittleBuddy
@@ -15,34 +14,34 @@ namespace LittleBuddy
         }
         public static void SetupBonemenu()
         {
-            MenuCategory menuCategory = MenuManager.CreateCategory("Little Buddy", Color.yellow);
+            Page menuCategory = Page.Root.CreatePage("Little Buddy", Color.yellow);
             // Clone the RM
-            menuCategory.CreateFunctionElement(
+            menuCategory.CreateFunction(
                 "Spawn Buddy :D",
                 Color.green,
                     _cloneRigManager.Clone
             );
             // Rotate the RM
-            menuCategory.CreateFunctionElement(
+            menuCategory.CreateFunction(
                 "Rotate Buddy", Color.white,
                     _cloneRigManager.Rotate
             );
-            menuCategory.CreateFloatElement(
+            menuCategory.CreateFloat(
                 "Rotation Degree", Color.white, 90, 5, -180, 180,
                     (float value) => _cloneRigManager.RotationAmount = value
             );
             // Freeze the RM
-            menuCategory.CreateFunctionElement(
+            menuCategory.CreateFunction(
                 "Freeze Buddy", Color.cyan,
                     _cloneRigManager.Freeze
             );
             // Unfreeze the RM
-            menuCategory.CreateFunctionElement(
+            menuCategory.CreateFunction(
                 "Unfreeze Buddy", Color.yellow,
                     _cloneRigManager.Unfreeze
             );
             // Delete the RM, which really is just reloading the scene
-            menuCategory.CreateFunctionElement(
+            menuCategory.CreateFunction(
                 "Reload Scene", Color.red,
                     _cloneRigManager.Delete
             );
